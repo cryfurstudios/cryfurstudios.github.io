@@ -2,38 +2,31 @@
     // Define the name and blocks of your extension
     var descriptor = {
         blocks: [
-            [' ', 'load extension from %s', 'loadExtension', 'extension.js'],
+            [' ', 'load extension', 'loadExtension'],
         ]
     };
 
     // Function to load an extension from a file
-    function loadExtension(filename) {
-        // Validate the filename to prevent path traversal attacks
-        if (filename.indexOf('/') !== -1 || filename.indexOf('\\') !== -1) {
-            throw new Error('Invalid filename');
-        }
-
-        // Load the file using a XMLHttpRequest
-        var xhr = new XMLHttpRequest();
-        xhr.open('GET', filename, true);
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState === XMLHttpRequest.DONE) {
-                if (xhr.status === 200) {
-                    try {
-                        // Evaluate the extension code in the context of the parent window
-                        window.parent.eval(xhr.responseText);
-                    } catch (e) {
-                        console.error('Error loading extension:', e);
-                    }
-                } else {
-                    console.error('Error loading extension:', xhr.statusText);
+    function loadExtension() {
+        // Trigger the file input element to allow the user to select a file
+        var fileInput = document.getElementById('extensionFileInput');
+        fileInput.click();
+        fileInput.onchange = function() {
+            // Load the selected file as a text file
+            var file = fileInput.files[0];
+            var reader = new FileReader();
+            reader.readAsText(file);
+            reader.onload = function() {
+                try {
+                    // Evaluate the extension code in the context of the parent window
+                    window.parent.eval(reader.result);
+                } catch (e) {
+                    console.error('Error loading extension:', e);
                 }
-            }
+            };
         };
-        xhr.send();
     }
 
     // Register the extension
-    ext.loadExtension = loadExtension;
     ScratchExtensions.register('Extension Loader', descriptor, ext);
 })({});
