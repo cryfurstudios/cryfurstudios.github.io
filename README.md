@@ -2,6 +2,6 @@
 This is the Github repo for my website!
 
 Website:
-[https://crystalfuruwu.github.io](https://crystalfuruwu.github.io)
+[https://cryfurstudios.github.io](https://cryfurstudios.github.io)
 Discord:
-[Crystal Fur#5411](https://discordapp.com/users/801924961727414313)
+[crystalfur](https://discordapp.com/users/801924961727414313)
