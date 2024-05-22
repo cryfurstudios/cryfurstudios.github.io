@@ -18,9 +18,9 @@ html, body {
 div {
 		border-radius: 5px;
 		background-color: #f2f2f2;
-		padding: 20px;
+		padding: 10px;
 		max-width: 400px;  /* Maximum width of the div */
-		width: 100%;  /* Ensure it is responsive */
+		width: 90%;  /* Ensure it is responsive */
 		box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);  /* Adding a subtle shadow for better visibility */
 		text-align: left; /* Align text inside the div to the left */
 		margin-bottom: 20px; /* Add margin to space out the div from the h2 */
