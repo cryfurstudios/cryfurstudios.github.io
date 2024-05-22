@@ -23,7 +23,7 @@ div {
 		width: 100%;  /* Ensure it is responsive */
 		box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);  /* Adding a subtle shadow for better visibility */
 		text-align: left; /* Align text inside the div to the left */
-		margin-bottom: 0px; /* Add margin to space out the div from the h2 */
+		margin-bottom: 20px; /* Add margin to space out the div from the h2 */
 }
 
 /* Style for the calculate button */
