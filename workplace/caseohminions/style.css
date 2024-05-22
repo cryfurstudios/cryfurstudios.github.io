@@ -1,0 +1,95 @@
+/* Basic styles for the html and body */
+html, body {
+		height: 100%;
+		width: 100%;
+		font-family: "Roboto", sans-serif;
+		font-weight: 400;
+		font-style: normal;
+		text-align: center;
+		margin: 0;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		background-color: #f0f0f0;
+}
+
+/* Style for the container div */
+div {
+		border-radius: 5px;
+		background-color: #f2f2f2;
+		padding: 20px;
+		max-width: 400px;  /* Maximum width of the div */
+		width: 100%;  /* Ensure it is responsive */
+		box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);  /* Adding a subtle shadow for better visibility */
+		text-align: left; /* Align text inside the div to the left */
+		margin-bottom: 20px; /* Add margin to space out the div from the h2 */
+}
+
+/* Style for the calculate button */
+.calculateButton {
+		background-color: #ffbfcf; /* Main Color Scheme */
+		border: none;
+		color: #000000;
+		padding: 15px 32px;
+		text-align: center;
+		text-decoration: none;
+		display: inline-block;
+		font-size: 16px;
+		border-radius: 4px;  /* Adding border-radius for a rounded button */
+		cursor: pointer;
+}
+
+/* Style for text input and select elements */
+input[type=number], select {
+		width: 100%;
+		padding: 12px 20px;
+		margin: 8px 0;
+		display: inline-block;
+		border: 1px solid #ccc;
+		border-radius: 4px;
+		box-sizing: border-box;
+}
+
+/* Style for submit input */
+input[type=submit] {
+		width: 100%;
+		background-color: #4CAF50;
+		color: white;
+		padding: 14px 20px;
+		margin: 8px 0;
+		border: none;
+		border-radius: 4px;
+		cursor: pointer;
+}
+
+/* Hover effect for submit input */
+input[type=submit]:hover {
+		background-color: #45a049;
+}
+
+/* Style for the h2 element */
+h2 {
+		text-align: center;
+		margin-top: 20px;
+		color: #333;
+		width: 100%;
+}
+.title {
+	color: #283e28;
+}
+.heading-container {
+	border-radius: 5px;
+	background-color: #f2f2f2;
+	padding: 20px;
+	max-width: 400px;  /* Maximum width of the div */
+	width: 100%;  /* Ensure it is responsive */
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);  /* Adding a subtle shadow for better visibility */
+	margin-top: 20px; /* Add some space above the div */
+}
+
+/* Style for the h2 element */
+h2 {
+	margin: 0;
+	color: #333;
+}
