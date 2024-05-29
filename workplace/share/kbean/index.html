@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>K-Bean Internet Café </title>
+    <link rel="stylesheet" href="index.css" />
+      
+          <div class="flip-card">
+              <div class="flip-card-inner">
+                <div class="flip-card-front">
+                  <img src="Cafe Logo.png" id="logo"</img>
+
+                </div>
+                <div class="flip-card-back">
+                <img src="Kpop Shop Logo.png" id="logo"</img>
+                </div>
+              </div>
+              </div>
+
+           </head>
+  
+     <body>
+       <h1><center>K-Bean Internet Café</center></h1>
+       <p><center>Personalized calculator for future employees to use.</center></p>
+    <form id="calculator">
+      <label for="Salary"> Salary ($)</label>
+      <input type="number" id="salary" name="salary" min="1000" step="1000" required value="80000" />
+
+      <label for="numberOfShares">Number Of Shares</label>
+      <input type="number" id="shares" name="shares" min="0" step="1" required value="1000" />
+
+      <label for="strikePrice">Strike Price ($)</label>
+      <input type="number" id="strikePrice" name="strikePrice" min="0.00" step="1.00" required value="5.00" />
+      <label for="preferedPrice">Prefered Price ($)</label>
+      <input type="number" id="preferedPrice" name="preferedPrice" min="0.00" step="1.00" required value="10.00" />
+      <label for="expectedCompanyGrowth">Expected Company Growth (0–100)*</label>
+      <p>Amount of growth you believe or expect the company to grow.</p>
+      <input
+        type="range"
+        id="growth"
+        name="growth"
+        min="0"
+        max="100"
+        step="10"
+        value="10"
+        list="markers"
+        required
+      />
+      <datalist id="markers">
+        <option value="0" label="0% "></option>
+        <option value="20" label="20%"></option>
+        <option value="40" label="40%"></option>
+        <option value="60" label="60%"></option>
+        <option value="80" label="80%"></option>     
+        <option value="100" label="100%"></option>
+      </datalist>
+
+      <input type="submit" value="Calculate" />
+
+      <label for="totalCompensation">Total Compensation ($)</label>
+      <p>Salary + (Shares x ((Prefered Price * ((Growth / 100) + 1)) - Strike Price) * (Growth / 100)) </p>
+      <input type="number" id="total" name="total" min="0.01" step="0.01" readonly />
+    </form>
+
+    <script src="index.js"></script>
+
+      <label for="slideshow"><center>We Hope To Hear From You!!!</center></label>
+
+     <div class="slideshow-container">
+
+     <div class="mySlides fade">
+       <div class="numbertext">
+
+       </div>
+       <img src="Img1.webp" style="width:80%">
+         <div class="text"> </div>
+         </div>
+     </div>
+
+     <div class="mySlides fade">
+       <div class="numbertext">
+
+       </div>
+       <img src="Img2.jpeg" style="width:80%">
+       <div class="text"></div>
+       </div>
+
+     <div class="mySlides fade">
+       <div class="numbertext">
+
+       </div>
+       <img src="Img3.png" style="width:80%">
+       <div class="text"> 
+         </div>
+       </div>
+     </div>
+       </div>
+     <br>
+
+     <div style="text-align:center">
+       <span class="dot"></span> 
+       <span class="dot"></span> 
+       <span class="dot"></span> 
+     </div>
+
+     <script>
+     let slideIndex = 0;
+     showSlides();
+
+     function showSlides() {
+       let i;
+       let slides = document.getElementsByClassName("mySlides");
+       let dots = document.getElementsByClassName("dot");
+       for (i = 0; i < slides.length; i++) {
+         slides[i].style.display = "none";  
+       }
+       slideIndex++;
+       if (slideIndex > slides.length) {slideIndex = 1}    
+       for (i = 0; i < dots.length; i++) {
+         dots[i].className = dots[i].className.replace(" active", "");
+       }
+       slides[slideIndex-1].style.display = "block";  
+       dots[slideIndex-1].className += " active";
+       setTimeout(showSlides, 4000); // Change image every 4 seconds
+     }
+     </script>
+  </body>
+</html>

@@ -1,0 +1,163 @@
+html {
+  font-size: 20px;
+  background-color:#c8957c;
+}
+
+body {
+  font-family:'pacifico', cursive;
+  margin: 0 auto;
+  max-width: 30rem;
+  padding: 1rem;
+}
+
+h1 {
+   font-family:'pacifico', cursive;
+  margin-block: 0;
+}
+
+#logo {
+  /* center in screen and crop to a circle shape */
+  display: block;
+  margin: 0 auto;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  
+}
+.flip-card {
+  background-color: transparent;
+  width: 130px;
+  height: 130px;
+  margin:auto;
+}
+
+.flip-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  transition: transform 0.6s;
+  transform-style: preserve-3d;
+  box-shadow: 0 0px 0px 0 rgba(0,0,0,0.2);
+}
+
+.flip-card:hover .flip-card-inner {
+  transform: rotateY(180deg);
+}
+
+.flip-card-front, .flip-card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+.flip-card-front {
+  background-color: transparent;
+  color: transparent;
+}
+
+.flip-card-back {
+  background-color: transparent;
+  color: transparent;
+  transform: rotateY(180deg);
+}
+
+.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+}
+.flip-horizontally {
+  transform: scaleX(-1);
+}
+
+img {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  border-radius:50%;
+  height: 250px;
+  width: 200px;
+}
+
+p {
+  margin-block-end: 0;
+  margin-block-start: 0.25rem;
+}
+
+label {
+  display: block;
+  font-weight: bold;
+  margin-block-start: 1.5rem;
+}
+
+input {
+  border-radius: 1rem;
+  font-size: inherit;
+  margin-block-start: 0.25rem;
+  padding: 0.5rem;
+  width: 100%;
+  background-color: beige;
+}
+
+input[readonly] {
+  background-color: #FAEBD7;
+  border-radius: 3rem;
+  border-color: transparent;
+}
+
+input[type='submit'] {
+  background-color: #FAEBD7;
+  border-radius: 3rem;
+  border: none;
+  color: black;
+  cursor: pointer;
+  margin-block-start: 3rem;
+}
+
+input[type='submit']:hover,
+input[type='submit']:focus {
+  background-color:;
+;
+}
+
+input[type='range'] {
+  margin-block-end: 0;
+  margin-inline: 0;
+  padding: 0;
+  accent-color:#6F4E37;
+}
+
+datalist {
+  display: flex;
+  justify-content: space-between;
+}
+
+option {
+  padding: 0;
+}
+
+.active {
+  background-color: #717171;
+}
+
+/* Fading animation */
+.fade {
+  animation-name: fade;
+  animation-duration: 1.5s;
+}
+
+@keyframes fade {
+  from {opacity: .4} 
+  to {opacity: 1}
+}
+
+/* On smaller screens, decrease text size */
+@media only screen and (max-width: 300px) {
+  .text {font-size: 11px}
+}
