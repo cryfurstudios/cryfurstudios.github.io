@@ -1,0 +1,82 @@
+
+
+body {
+  background-color: black;
+  color: white;
+}
+
+
+
+body {
+  font-family: ui-system, sans-serif;
+  margin: 0 auto;
+  max-width: 30rem;
+  padding: 1rem;
+  
+}
+
+
+
+h1 {
+  margin-block: 0;
+}
+
+p {
+  margin-block-end: 0;
+  margin-block-start: 0.25rem;
+  ;
+}
+
+label {
+  display: block;
+  font-weight: bold;
+  margin-block-start: 1.5rem;
+  
+}
+
+input {
+  box-sizing: border-box;
+  font-size: inherit;
+  margin-block-start: 0.25rem;
+  padding: 0.5rem;
+  width: 100%;
+  
+}
+
+input[readonly] {
+  background-color: beige;
+  border-color: transparent;
+}
+
+input[type='submit'] {
+  background-color: grey;
+  border-radius: 3rem;
+  border: none;
+  color: YELLOW2 (FFE599)
+  ;
+  cursor: pointer;
+  margin-block-start: 1rem;
+  
+}
+
+input[type='submit']:hover,
+input[type='submit']:focus {
+  background-color: #1d1b1b;
+  
+}
+
+input[type='range'] {
+  margin-block-end: 0;
+  margin-inline: 0;
+  padding: 0;
+  
+}
+
+datalist {
+  display: flex;
+  justify-content: space-between;
+}
+
+option {
+  padding: 0;
+}
