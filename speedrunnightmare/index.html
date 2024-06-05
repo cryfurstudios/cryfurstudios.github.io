@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>cryfurstudios</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #333;
+            color: #fff;
+            text-align: center;
+        }
+        #toolbar {
+            margin-bottom: 10px;
+        }
+        #buttonID {
+            color: black;
+            background-color: white;
+            width: 100px;
+            height: 30px;
+            border-radius: 10%;
+        }
+        .tool {
+            display: inline-block;
+            width: 50px;
+            height: 50px;
+            border: 1px solid #fff;
+            margin-right: 5px;
+            cursor: pointer;
+            text-align: center;
+            line-height: 50px;
+            background-color: #444;
+            color: #fff;
+        }
+        .selected {
+            border: 2px solid red;
+        }
+        #level-editor {
+            display: grid;
+            grid-template-rows: repeat(7, 50px);
+            grid-auto-flow: column;
+            gap: 5px;
+            overflow-x: auto;
+            white-space: nowrap;
+            background-color: #222;
+        }
+        #level-editor {
+            height: 420px;
+        }
+        .tile {
+            width: 50px;
+            height: 50px;
+            border: 1px solid #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .___grass { background-color: green; }
+        .____dirt { background-color: brown; }
+        .____load { background-color: blue; }
+        .___error { background-color: red; }
+        ._____air { background-color: lightblue; }
+        .__spring { background-color: yellow; }
+        .___stair { background-color: gray; }
+        .__grass2 { background-color: darkgreen; }
+        .___dirt2 { background-color: darkbrown; }
+        .__lvlEnd { background-color: gold; }
+        .____coin { background-color: orange; }
+        .___water { background-color: aqua; }
+        .____life { background-color: pink; }
+        .___fCoin { background-color: cyan; }
+        .__parcon { background-color: purple; }
+        .__extra1, .__extra2, .__extra3, .__extra4, .__extra5, .__extra6, .__extra7, .__extra8, .__extra9 { background-color: black; }
+    </style>
+</head>
+<body>
+    <h1>Game Level Editor for CryFur Studios ClonePen Engine</h1>
+    <div>
+        <input type="file" id="file-input" style="display: none;" onchange="importLevel(event)">
+        <button id="buttonID" onclick="document.getElementById('file-input').click()">Import Level</button>
+        <button id="buttonID" onclick="exportLevel()">Export Level</button>
+    </div>
+    <div id="toolbar">
+        <div class="tool ___grass" onclick="selectTool('___grass')">Grass</div>
+        <div class="tool ____dirt" onclick="selectTool('____dirt')">Dirt</div>
+        <div class="tool ____load" onclick="selectTool('____load')">Load</div>
+        <div class="tool ___error" onclick="selectTool('___error')">Error</div>
+        <div class="tool _____air" onclick="selectTool('_____air')">Air</div>
+        <div class="tool __spring" onclick="selectTool('__spring')">Spring</div>
+        <div class="tool ___stair" onclick="selectTool('___stair')">Stair</div>
+        <div class="tool __grass2" onclick="selectTool('__grass2')">Grass2</div>
+        <div class="tool ___dirt2" onclick="selectTool('___dirt2')">Dirt2</div>
+        <div class="tool __lvlEnd" onclick="selectTool('__lvlEnd')">End</div>
+        <div class="tool ____coin" onclick="selectTool('____coin')">Coin</div>
+        <div class="tool ___water" onclick="selectTool('___water')">Water</div>
+        <div class="tool ____life" onclick="selectTool('____life')">Life</div>
+        <div class="tool ___fCoin" onclick="selectTool('___fCoin')">Coin</div>
+        <div class="tool __parcon" onclick="selectTool('__parcon')">Parcon</div>
+        <div class="tool __extra1" onclick="selectTool('__extra1')">Extra1</div>
+        <div class="tool __extra2" onclick="selectTool('__extra2')">Extra2</div>
+        <div class="tool __extra3" onclick="selectTool('__extra3')">Extra3</div>
+        <div class="tool __extra4" onclick="selectTool('__extra4')">Extra4</div>
+        <div class="tool __extra5" onclick="selectTool('__extra5')">Extra5</div>
+        <div class="tool __extra6" onclick="selectTool('__extra6')">Extra6</div>
+        <div class="tool __extra7" onclick="selectTool('__extra7')">Extra7</div>
+        <div class="tool __extra8" onclick="selectTool('__extra8')">Extra8</div>
+        <div class="tool __extra9" onclick="selectTool('__extra9')">Extra9</div>
+    </div>
+    <div id="level-editor"></div>
+    <script>
+        const levelEditor = document.getElementById('level-editor');
+        const fileInput = document.getElementById('file-input');
+        const levelHeight = 7;
+        const levelWidth = 500;
+        let selectedTool = '___grass';
+
+        const tileManifest = [
+            '___grass', '____dirt', '____load', '___error', '_____air', '__spring',
+            '___stair', '__grass2', '___dirt2', '__lvlEnd', '____coin', '___water',
+            '____life', '___fCoin', '__parcon', '__extra1', '__extra2', '__extra3',
+            '__extra4', '__extra5', '__extra6', '__extra7', '__extra8', '__extra9'
+        ];
+
+        let level = Array.from({ length: levelHeight }, () => Array(levelWidth).fill('_____air'));
+
+        function renderLevel() {
+            levelEditor.innerHTML = '';
+            for (let y = 0; y < levelHeight; y++) {
+                for (let x = 0; x < levelWidth; x++) {
+                    const tile = document.createElement('div');
+                    tile.className = `tile ${level[y][x].trim()}`;
+                    tile.onclick = () => setTile(x, y);
+                    levelEditor.appendChild(tile);
+                }
+            }
+            levelEditor.style.gridTemplateColumns = `repeat(${levelWidth}, 50px)`;
+        }
+
+        function setTile(x, y) {
+            level[y][x] = selectedTool;
+            renderLevel();
+        }
+
+        function selectTool(tool) {
+            selectedTool = tool;
+            document.querySelectorAll('.tool').forEach(el => el.classList.remove('selected'));
+            document.querySelector(`.${tool}`).classList.add('selected');
+        }
+
+        function exportLevel() {
+            let levelString = '';
+            for (let y = 0; y < levelHeight; y++) {
+                for (let x = 0; x < levelWidth; x++) {
+                    levelString += level[y][x].padEnd(8, '_');
+                }
+            }
+            const blob = new Blob([levelString], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'level.txt';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        function importLevel(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const levelString = e.target.result.trim();
+                    let index = 0;
+                    for (let y = 0; y < levelHeight; y++) {
+                        for (let x = 0; x < levelWidth; x++) {
+                            level[y][x] = levelString.substring(index, index + 8).padEnd(8, '_');
+                            index += 8;
+                        }
+                    }
+                    renderLevel();
+                };
+                reader.readAsText(file);
+            }
+        }
+
+        // Initialize the editor with a default level
+        selectTool('___grass');
+        renderLevel();
+    </script>
+</body>
+</html>
