@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Markdown Reader</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            height: 100vh;
+            background-color: #121212;
+            color: #e0e0e0;
+        }
+        .container {
+            display: flex;
+            width: 100%;
+        }
+        .sidebar {
+            width: 20%;
+            background-color: #1e1e1e;
+            padding: 10px;
+            box-shadow: 2px 0px 5px rgba(0, 0, 0, 0.2);
+            overflow-y: auto;
+        }
+        .sidebar h2 {
+            text-align: center;
+            color: #ffffff;
+        }
+        .sidebar ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .sidebar ul li {
+            margin: 5px 0;
+        }
+        .sidebar ul li a {
+            text-decoration: none;
+            color: #b0bec5;
+        }
+        .sidebar ul li a:hover {
+            text-decoration: underline;
+        }
+        .content {
+            width: 80%;
+            padding: 20px;
+            overflow-y: auto;
+        }
+        #markdown-content {
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+        pre {
+            background-color: #263238;
+            padding: 10px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        code {
+            color: #80cbc4;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <h2>Files</h2>
+            <ul id="fileList"></ul>
+        </div>
+        <div class="content">
+            <div id="markdown-content">Select a file to view its content.</div>
+        </div>
+    </div>
+
+    <!-- Include the marked.js library from a CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
+    <!-- Inline script to load Markdown content -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const fileList = document.getElementById('fileList');
+            const markdownContent = document.getElementById('markdown-content');
+
+            // Replace with actual file names
+            const files = ['2016 Chirp.md', '2107 Timeline.md', 'Clover.md', 'Confused Worlds.md', 'Cosmic.md', 'Crystal Fur 2nd.md', 'Crystal Furs Timeline.md', 'Crystal Milo Fur.md', 'Fermi.md', 'Libive.md', 'Magilohys Timeline.md', 'Seriously Shell Script.md'];
+
+            // Generate file list
+            files.forEach(file => {
+                const listItem = document.createElement('li');
+                const link = document.createElement('a');
+                link.href = '#';
+                link.textContent = file;
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    loadMarkdown(file);
+                });
+                listItem.appendChild(link);
+                fileList.appendChild(listItem);
+            });
+
+            function loadMarkdown(file) {
+                fetch('markdown/' + file)
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.text();
+                    })
+                    .then(text => {
+                        try {
+                            markdownContent.innerHTML = marked.parse(text);
+                        } catch (error) {
+                            console.error('Markdown Parsing Error:', error);
+                            markdownContent.innerHTML = 'Error parsing Markdown content: ' + error.message;
+                        }
+                    })
+                    .catch(error => {
+                        markdownContent.innerHTML = 'Error loading file: ' + error.message;
+                        console.error('There was a problem with the fetch operation:', error);
+                    });
+            }
+        });
+    </script>
+</body>
+</html>
