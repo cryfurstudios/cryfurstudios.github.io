@@ -3,20 +3,44 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Markdown Reader</title>
+    <title>ParCon Logs</title>
     <style>
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
             display: flex;
+            flex-direction: column;
             height: 100vh;
             background-color: #121212;
             color: #e0e0e0;
         }
+        .navbar {
+            background-color: #1e1e1e;
+            padding: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            color: #ffffff;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .navbar a {
+            color: #b0bec5;
+            text-decoration: none;
+            padding: 0 15px;
+        }
+        .navbar a:hover {
+            text-decoration: underline;
+        }
+        .navbar .file-name {
+            flex-grow: 1;
+            text-align: center;
+            font-weight: bold;
+        }
         .container {
             display: flex;
             width: 100%;
+            flex: 1;
         }
         .sidebar {
             width: 20%;
@@ -24,6 +48,8 @@
             padding: 10px;
             box-shadow: 2px 0px 5px rgba(0, 0, 0, 0.2);
             overflow-y: auto;
+            height: calc(100vh - 50px); /* Adjust height for navbar */
+            box-sizing: border-box;
         }
         .sidebar h2 {
             text-align: center;
@@ -32,25 +58,33 @@
         .sidebar ul {
             list-style-type: none;
             padding: 0;
+            margin: 0;
         }
         .sidebar ul li {
             margin: 5px 0;
         }
         .sidebar ul li a {
+            display: block;
             text-decoration: none;
             color: #b0bec5;
+            padding: 10px;
+            background-color: #263238;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            transition: background-color 0.3s;
         }
         .sidebar ul li a:hover {
-            text-decoration: underline;
+            background-color: #37474f;
         }
         .content {
             width: 80%;
             padding: 20px;
             overflow-y: auto;
+            height: calc(100vh - 50px); /* Adjust height for navbar */
+            box-sizing: border-box;
         }
         #markdown-content {
-            max-width: 800px;
-            margin: 0 auto;
+            max-width: 100%;
             line-height: 1.6;
         }
         pre {
@@ -65,25 +99,30 @@
     </style>
 </head>
 <body>
+    <div class="navbar">
+        <a href="https://cryfurstudios.github.io">Home</a>
+        <div class="file-name" id="fileName">...</div>
+    </div>
     <div class="container">
         <div class="sidebar">
-            <h2>Files</h2>
+            <h2>Logs</h2>
             <ul id="fileList"></ul>
         </div>
         <div class="content">
-            <div id="markdown-content">Select a file to view its content.</div>
+            <div id="markdown-content"></div>
         </div>
     </div>
 
     <!-- Include the marked.js library from a CDN -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
-    <!-- Inline script to load Markdown content -->
+    <!-- Inline script to handle URL parameters and load Markdown content -->
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const fileList = document.getElementById('fileList');
             const markdownContent = document.getElementById('markdown-content');
-
+            const fileName = document.getElementById('fileName');
+            
             // Replace with actual file names
             const files = ['2016 Chirp.md', '2107 Timeline.md', 'Clover.md', 'Confused Worlds.md', 'Cosmic.md', 'Crystal Fur 2nd.md', 'Crystal Furs Timeline.md', 'Crystal Milo Fur.md', 'Fermi.md', 'Libive.md', 'Magilohys Timeline.md', 'Seriously Shell Script.md'];
 
@@ -91,12 +130,8 @@
             files.forEach(file => {
                 const listItem = document.createElement('li');
                 const link = document.createElement('a');
-                link.href = '#';
+                link.href = '?file=' + encodeURIComponent(file);
                 link.textContent = file;
-                link.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    loadMarkdown(file);
-                });
                 listItem.appendChild(link);
                 fileList.appendChild(listItem);
             });
@@ -111,7 +146,10 @@
                     })
                     .then(text => {
                         try {
+                            // Convert Markdown to HTML
                             markdownContent.innerHTML = marked.parse(text);
+                            // Update file name display
+                            fileName.textContent = file;
                         } catch (error) {
                             console.error('Markdown Parsing Error:', error);
                             markdownContent.innerHTML = 'Error parsing Markdown content: ' + error.message;
@@ -121,6 +159,13 @@
                         markdownContent.innerHTML = 'Error loading file: ' + error.message;
                         console.error('There was a problem with the fetch operation:', error);
                     });
+            }
+
+            // Get the filename from URL parameters
+            const params = new URLSearchParams(window.location.search);
+            const fileParam = params.get('file');
+            if (fileParam) {
+                loadMarkdown(fileParam);
             }
         });
     </script>

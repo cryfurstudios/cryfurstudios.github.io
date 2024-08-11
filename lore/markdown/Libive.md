@@ -1,0 +1,1 @@
+world reset thinking mind only character
