@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ParCon Logs</title>
+    <title>Markdown Reader with Terminal</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -14,6 +14,7 @@
             height: 100vh;
             background-color: #121212;
             color: #e0e0e0;
+            overflow: hidden;
         }
         .navbar {
             background-color: #1e1e1e;
@@ -72,6 +73,7 @@
             border-radius: 5px;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
             transition: background-color 0.3s;
+            cursor: pointer;
         }
         .sidebar ul li a:hover {
             background-color: #37474f;
@@ -87,51 +89,115 @@
             max-width: 100%;
             line-height: 1.6;
         }
-        pre {
-            background-color: #263238;
+        /* Terminal overlay */
+        #terminal-tab {
+            background-color: #1e1e1e;
+            color: #ffffff;
+            padding: 10px;
+            text-align: center;
+            cursor: pointer;
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            z-index: 1000;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        #terminal-container {
+            background-color: rgba(38, 50, 56, 0.9); /* Semi-transparent background */
+            color: #e0e0e0;
             padding: 10px;
             border-radius: 5px;
-            overflow-x: auto;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 999;
+            display: none; /* Initially hidden */
+            overflow-y: auto;
+            font-family: monospace;
         }
-        code {
-            color: #80cbc4;
+        #terminal-input {
+            width: 100%;
+            background-color: #121212;
+            color: #e0e0e0;
+            border: none;
+            outline: none;
+            padding: 5px;
+            font-family: monospace;
+            box-sizing: border-box;
         }
     </style>
 </head>
 <body>
     <div class="navbar">
         <a href="https://cryfurstudios.github.io">Home</a>
-        <div class="file-name" id="fileName">...</div>
+        <div class="file-name" id="fileName">Select a log to view.</div>
     </div>
     <div class="container">
         <div class="sidebar">
-            <h2>Logs</h2>
-            <ul id="fileList"></ul>
+            <h2>Logs </h2>
+            <ul id="fileList">
+                <!-- Markdown files will be listed here -->
+            </ul>
         </div>
         <div class="content">
             <div id="markdown-content"></div>
         </div>
     </div>
 
+    <!-- Terminal overlay -->
+    <div id="terminal-tab">Remote Terminal</div>
+    <div id="terminal-container">
+        <div id="terminal-output">ParCon Remote Computer Terminal System v2021.08.02</div>
+        <input type="text" id="terminal-input" placeholder=">:">
+    </div>
+
     <!-- Include the marked.js library from a CDN -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
-    <!-- Inline script to handle URL parameters and load Markdown content -->
+    <!-- Inline script to load Markdown content and simulate terminal -->
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             const fileList = document.getElementById('fileList');
             const markdownContent = document.getElementById('markdown-content');
+            const terminalTab = document.getElementById('terminal-tab');
+            const terminalContainer = document.getElementById('terminal-container');
+            const terminalOutput = document.getElementById('terminal-output');
+            const terminalInput = document.getElementById('terminal-input');
             const fileName = document.getElementById('fileName');
-            
-            // Replace with actual file names
-            const files = ['2016 Chirp.md', '2107 Timeline.md', 'Clover.md', 'Confused Worlds.md', 'Cosmic.md', 'Crystal Fur 2nd.md', 'Crystal Furs Timeline.md', 'Crystal Milo Fur.md', 'Fermi.md', 'Libive.md', 'Magilohys Timeline.md', 'Seriously Shell Script.md'];
 
-            // Generate file list
+            // Replace with actual file names for the sidebar
+            const files = ['help.md', '2016 Chirp.md', '2107 Timeline.md', 'Clover.md', 'Confused Worlds.md', 'Cosmic.md', 'Crystal Fur 2nd.md', 'Crystal Furs Timeline.md', 'Crystal Milo Fur.md', 'Fermi.md', 'Libive.md', 'Magilohys Timeline.md', 'Seriously Shell Script.md'];
+
+            // Commands for the terminal and their outputs
+            const commands = {
+                'help': 'Available commands: help, date, open',
+                'echo': (args) => args.join(' '),
+                'clear': () => { terminalOutput.innerHTML = ''; return ''; },
+                'version': () => '',
+                'date': () => new Date().toString(),
+                'greet': (args) => `Hello, ${args[0] || 'stranger'}!`,
+                'open': (args) => {
+                    if (args.length > 0) {
+                        const file = args[0];
+                        loadMarkdown(file);
+                        return `Attempting to open (${file}).`;
+                    } else {
+                        return 'Please specify what log to open when running this command!';
+                    }
+                },
+            };
+
+            // Generate file list in the sidebar
             files.forEach(file => {
                 const listItem = document.createElement('li');
                 const link = document.createElement('a');
-                link.href = '?file=' + encodeURIComponent(file);
                 link.textContent = file;
+                link.addEventListener('click', function () {
+                    loadMarkdown(file);
+                });
                 listItem.appendChild(link);
                 fileList.appendChild(listItem);
             });
@@ -161,12 +227,32 @@
                     });
             }
 
-            // Get the filename from URL parameters
-            const params = new URLSearchParams(window.location.search);
-            const fileParam = params.get('file');
-            if (fileParam) {
-                loadMarkdown(fileParam);
-            }
+            // Handle terminal commands
+            terminalInput.addEventListener('keypress', function (e) {
+                if (e.key === 'Enter') {
+                    const input = terminalInput.value.trim();
+                    const [command, ...args] = input.split(' ');
+                    let output = commands[command];
+                    if (typeof output === 'function') {
+                        output = output(args);
+                    }
+                    if (output === undefined) {
+                        output = `Command not found: ${command}`;
+                    }
+                    terminalOutput.innerHTML += `<div>> ${input}</div><div>${output}</div>`;
+                    terminalInput.value = '';
+                    terminalContainer.scrollTop = terminalContainer.scrollHeight; // Auto-scroll to bottom
+                }
+            });
+
+            // Toggle terminal display
+            terminalTab.addEventListener('click', function () {
+                if (terminalContainer.style.display === 'none' || terminalContainer.style.display === '') {
+                    terminalContainer.style.display = 'block'; // Show terminal
+                } else {
+                    terminalContainer.style.display = 'none'; // Hide terminal
+                }
+            });
         });
     </script>
 </body>

@@ -3,9 +3,9 @@ Confused World(s) is a philosophical and sci-fi set of series and art images for
 
 Timelines:
 
-Magilohy's Timeline
-Crystal Fur's Timeline
-2107 Timeline
+Magilohy's Timeline,
+Crystal Fur's Timeline,
+2107 Timeline,
 
 
 Character Cast(Incomplete):
