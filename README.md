@@ -1,7 +1,10 @@
 # welcome to cryfurstudios!
-This is the Github repo for my website!
+formerly crystalfuruwu
+archive 2022
+This is the old Github repo for my website!
 
-Website:
+github.io Website:
 [https://cryfurstudios.github.io](https://cryfurstudios.github.io)
-Discord:
-[crystalfur](https://discordapp.com/users/801924961727414313)
+
+CryFur Studios website:
+[https://cryfurstudios.com](https://cryfurstudios.com)
